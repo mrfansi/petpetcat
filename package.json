@@ -1,8 +1,8 @@
 {
-  "name": "adonis-fullstack-app",
+  "name": "petpetcat",
   "version": "4.1.0",
   "adonis-version": "4.1.0",
-  "description": "The fullstack application boilerplate for Adonisjs",
+  "description": "Marketplace API for Petshop",
   "main": "index.js",
   "scripts": {
     "start": "ENV_SILENT=true node server.js",
@@ -12,8 +12,8 @@
     "adonisjs",
     "adonis-app"
   ],
-  "author": "",
-  "license": "UNLICENSED",
+  "author": "kangdevelop",
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "@adonisjs/ace": "^5.0.8",
@@ -25,7 +25,8 @@
     "@adonisjs/ignitor": "^2.0.8",
     "@adonisjs/lucid": "^6.1.3",
     "@adonisjs/session": "^1.0.27",
-    "@adonisjs/shield": "^1.0.8"
+    "@adonisjs/shield": "^1.0.8",
+    "mysql": "^2.18.1"
   },
   "devDependencies": {},
   "autoload": {
