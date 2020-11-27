@@ -13,10 +13,10 @@ class ShopSchema extends Schema {
       table.string("shop_image");
       table.string("shop_address");
       table.string("shop_phone");
-      table.string("shop_latitude");
-      table.string("shop_longitude");
-      table.string("shop_shopping");
-      table.string("shop_pickup");
+      table.decimal("shop_latitude", 15, 14);
+      table.decimal("shop_longitude", 17, 14);
+      table.boolean("shop_shopping");
+      table.boolean("shop_pickup");
       table.timestamps();
     });
   }
