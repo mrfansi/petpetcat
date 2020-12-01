@@ -40,6 +40,7 @@ class ServiceController {
       const payload = request.all();
       member.service_name = payload.service_name;
       member.service_description = payload.service_description;
+      member.service_image = payload.service_image;
       member.service_price = payload.service_price;
       await member.save();
 
@@ -105,6 +106,7 @@ class ServiceController {
       const payload = request.all();
       member.service_name = payload.service_name;
       member.service_description = payload.service_description;
+      member.service_image = payload.service_image;
       member.service_price = payload.service_price;
       member.save();
 
