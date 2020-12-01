@@ -21,6 +21,10 @@ class Category extends Model {
     return false;
   }
 
+  services () {
+    return this.belongsToMany('App/Models/Service')
+  }
+
 }
 
 module.exports = Category

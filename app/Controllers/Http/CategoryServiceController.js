@@ -20,19 +20,16 @@ class CategoryServiceController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index({ params, request, response, view }) {
+  async index({ params, request, response }) {
     const payload = request.all();
     const page = parseInt(payload.page) || 1;
     const limit = parseInt(payload.limit) || 5;
-    const members = await CategoryService.query()
-      .with("category", (builder) => {
-        builder
-          .where("id", params.categories_id)
-          .orWhere("category_slug", params.categories_id);
-      })
-      .with("service")
+    const members = await Category.query()
+      .where("id", params.categories_id)
+      .orWhere("category_slug", params.categories_id)
+      .with("services")
       .paginate(page, limit);
-    return response.status(200).json(members.toJSON());
+    return response.status(200).json(members);
   }
 
   /**
