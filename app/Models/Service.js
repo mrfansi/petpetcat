@@ -20,6 +20,10 @@ class Service extends Model {
   static get incrementing() {
     return false;
   }
+
+  shops () {
+    return this.belongsToMany('App/Models/Shop')
+  }
 }
 
 module.exports = Service
