@@ -6,7 +6,7 @@ const Schema = use("Schema");
 class ShopSchema extends Schema {
   up() {
     this.create("shops", (table) => {
-      table.uuid("id");
+      table.uuid("id").primary();
       table.string("shop_slug");
       table.string("shop_name");
       table.string("shop_description");

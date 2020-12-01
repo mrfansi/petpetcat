@@ -17,7 +17,7 @@
 const Route = use("Route");
 
 Route.on("/").render("welcome");
-Route.resource("shops", "ShopController");
-Route.resource("services", "ServiceController");
-Route.resource("orders", "OrderController");
-Route.resource("bookings", "BookingController");
+Route.resource("shops", "ShopController").apiOnly();
+Route.resource("services", "ServiceController").apiOnly();
+Route.resource("orders", "OrderController").apiOnly();
+Route.resource("bookings", "BookingController").apiOnly();
