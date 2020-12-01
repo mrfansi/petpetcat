@@ -22,7 +22,14 @@ class ShopController {
     const payload = request.all();
     const page = parseInt(payload.page) || 1;
     const limit = parseInt(payload.limit) || 5;
-    const members = await Shop.query().paginate(page, limit);
+    // const members = await Shop.setCurrentLatitude(payload.latitude)
+    //   .setCurrentLongitude(payload.longitude)
+    //   .query()
+    //   .paginate(page, limit);
+    const shop = new Shop();
+    shop.setCurrentLatitude(payload.latitude);
+    shop.setCurrentLongitude(payload.longitude);
+    const members = await shop.query().paginate(page, limit);
     return response.status(200).json(members.toJSON());
   }
 
