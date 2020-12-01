@@ -68,6 +68,12 @@ class CategoryServiceController {
         message: "Data successfully created",
       });
     } catch (error) {
+      console.log(error);
+      if (error.code == "ER_DUP_ENTRY") {
+        return response.status(500).json({
+          message: "Data duplicated",
+        });
+      }
       return response.status(500).json({
         message: "Internal server error",
       });
