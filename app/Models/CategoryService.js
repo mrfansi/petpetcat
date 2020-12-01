@@ -4,6 +4,13 @@
 const Model = use('Model')
 
 class CategoryService extends Model {
+  category() {
+    return this.belongsTo("App/Models/Category");
+  }
+
+  service() {
+    return this.belongsTo("App/Models/Service");
+  }
 }
 
 module.exports = CategoryService

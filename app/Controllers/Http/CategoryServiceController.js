@@ -1,93 +1,219 @@
-'use strict'
+"use strict";
+const Service = use("App/Models/Service");
+const CategoryService = use("App/Models/CategoryService");
+const Category = use("App/Models/Category");
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
 /**
- * Resourceful controller for interacting with categoryservices
+ * Resourceful controller for interacting with service_shop
  */
 class CategoryServiceController {
   /**
-   * Show a list of all categoryservices.
-   * GET categoryservices
+   * Show a list of all service_shop.
+   * GET service_shop
    *
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
+  async index({ request, response, view }) {
+    const payload = request.all();
+    const page = parseInt(payload.page) || 1;
+    const limit = parseInt(payload.limit) || 5;
+    const members = await CategoryService.query()
+      .with("category")
+      .with("service")
+      .paginate(page, limit);
+    return response.status(200).json(members.toJSON());
   }
 
   /**
-   * Render a form to be used for creating a new categoryservice.
-   * GET categoryservices/create
+   * Create/save a new CategoryService.
+   * POST service_shop
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   */
+  async store({ params, request, response }) {
+    try {
+      const payload = request.all();
+      const category = await Category.query()
+        .where("id", params.categories_id)
+        .orWhere("category_slug", params.categories_id)
+        .first();
+
+      const service = await Service.query()
+        .where("id", payload.service_id)
+        .orWhere("service_slug", payload.service_id)
+        .first();
+
+      if (!service && !category) {
+        return response.status(404).json({
+          message: "Data not found",
+        });
+      }
+
+      const member = new CategoryService();
+      member.service_id = service.id;
+      member.category_id = category.id;
+      await member.save();
+
+      return response.status(200).json({
+        message: "Data successfully created",
+      });
+    } catch (error) {
+      return response.status(500).json({
+        message: "Internal server error",
+      });
+    }
+  }
+
+  /**
+   * Display a single CategoryService.
+   * GET service_shop/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
+  async show({ params, request, response, view }) {
+    try {
+      const service = await Service.query()
+        .where("id", params.id)
+        .orWhere("service_slug", params.id)
+        .first();
+      const category = await Category.query()
+        .where("id", params.categories_id)
+        .orWhere("category_slug", params.categories_id)
+        .first();
+
+      if (!service && !category) {
+        return response.status(404).json({
+          message: "Data not found",
+        });
+      }
+
+      const member = await CategoryService.query()
+        .where("service_id", service.id)
+        .where("category_id", category.id)
+        .with("category")
+        .with("service")
+        .first();
+      if (!member) {
+        return response.status(404).json({
+          message: "Data not found",
+        });
+      }
+      return response.status(200).json(member.toJSON());
+    } catch (e) {
+      return response.status(500).json({
+        message: "Internal server error",
+      });
+    }
   }
 
   /**
-   * Create/save a new categoryservice.
-   * POST categoryservices
+   * Update CategoryService details.
+   * PUT or PATCH service_shop/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async update({ params, request, response }) {
+    try {
+      const service = await Service.query()
+        .where("id", params.id)
+        .orWhere("service_slug", params.id)
+        .first();
+      const category = await Category.query()
+        .where("id", params.categories_id)
+        .orWhere("category_slug", params.categories_id)
+        .first();
+
+      if (!service && !category) {
+        return response.status(404).json({
+          message: "Data not found",
+        });
+      }
+
+      const member = await CategoryService.query()
+        .where("service_id", service.id)
+        .where("category_id", category.id)
+        .first();
+
+      if (!member) {
+        return response.status(404).json({
+          message: "Data not found",
+        });
+      }
+
+      const payload = request.all();
+      member.service_price = payload.service_price;
+      member.save();
+
+      return response.status(200).json({
+        message: "Data successfully updated",
+      });
+    } catch (error) {
+      return response.status(500).json({
+        message: "Internal server error",
+      });
+    }
   }
 
   /**
-   * Display a single categoryservice.
-   * GET categoryservices/:id
+   * Delete a CategoryService with id.
+   * DELETE service_shop/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Response} ctx.response
-   * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-  }
+  async destroy({ params, request, response }) {
+    try {
+      const category = await Category.query()
+        .where("id", params.categories_id)
+        .orWhere("category_slug", params.categories_id)
+        .first();
 
-  /**
-   * Render a form to update an existing categoryservice.
-   * GET categoryservices/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
-  }
+      const service = await Service.query()
+        .where("id", params.id)
+        .orWhere("service_slug", params.id)
+        .first();
 
-  /**
-   * Update categoryservice details.
-   * PUT or PATCH categoryservices/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async update ({ params, request, response }) {
-  }
 
-  /**
-   * Delete a categoryservice with id.
-   * DELETE categoryservices/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async destroy ({ params, request, response }) {
+      if (!service && !category) {
+        return response.status(404).json({
+          message: "Data not found",
+        });
+      }
+
+      const member = await CategoryService.query()
+        .where("service_id", service.id)
+        .where("category_id", category.id)
+        .first();
+      if (!member) {
+        return response.status(404).json({
+          message: "Data not found",
+        });
+      }
+      await member.delete();
+      return response.status(200).json({
+        message: "Data successfully deleted",
+      });
+    } catch (e) {
+      return response.status(500).json({
+        message: "Internal server error",
+      });
+    }
   }
 }
 
-module.exports = CategoryServiceController
+module.exports = CategoryServiceController;

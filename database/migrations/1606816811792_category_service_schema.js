@@ -6,8 +6,10 @@ const Schema = use('Schema')
 class CategoryServiceSchema extends Schema {
   up () {
     this.create('category_services', (table) => {
-      table.increments()
-      table.timestamps()
+      table.increments().primary();
+      table.uuid("category_id").references("id").inTable("categories");
+      table.uuid("service_id").references("id").inTable("services");
+      table.timestamps();
     })
   }
 
