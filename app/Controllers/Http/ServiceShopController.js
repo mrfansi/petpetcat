@@ -24,11 +24,12 @@ class ServiceShopController {
     const payload = request.all();
     const page = parseInt(payload.page) || 1;
     const limit = parseInt(payload.limit) || 5;
-    const members = await ServiceShop.query()
-      .with("shop")
-      .with("service")
+    const members = await Service.query()
+      .where("id", params.services_id)
+      .orWhere("service_slug", params.services_id)
+      .with("shops")
       .paginate(page, limit);
-    return response.status(200).json(members.toJSON());
+    return response.status(200).json(members);
   }
 
   /**
