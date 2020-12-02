@@ -20,15 +20,17 @@ class ServiceShopController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index({ request, response, view }) {
+  async index({ params, request, response }) {
     const payload = request.all();
     const page = parseInt(payload.page) || 1;
     const limit = parseInt(payload.limit) || 5;
     const members = await Service.query()
       .where("id", params.services_id)
       .orWhere("service_slug", params.services_id)
-      .with("shops")
-      .paginate(page, limit);
+      .with("shops", (builder) => {
+        builder.forPage(page, limit);
+      })
+      .first();
     return response.status(200).json(members);
   }
 

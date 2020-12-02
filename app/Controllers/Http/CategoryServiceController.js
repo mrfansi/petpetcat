@@ -27,8 +27,10 @@ class CategoryServiceController {
     const members = await Category.query()
       .where("id", params.categories_id)
       .orWhere("category_slug", params.categories_id)
-      .with("services")
-      .paginate(page, limit);
+      .with("services", (builder) => {
+        builder.forPage(page, limit);
+      })
+      .first();
     return response.status(200).json(members);
   }
 
