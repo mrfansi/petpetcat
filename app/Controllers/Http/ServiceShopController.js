@@ -2,6 +2,7 @@
 const Service = use("App/Models/Service");
 const ServiceShop = use("App/Models/ServiceShop");
 const Shop = use("App/Models/Shop");
+const Location = use("App/Libraries/Location");
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -22,16 +23,46 @@ class ServiceShopController {
    */
   async index({ params, request, response }) {
     const payload = request.all();
-    const page = parseInt(payload.page) || 1;
-    const limit = parseInt(payload.limit) || 5;
-    const members = await Service.query()
+    const latitude = parseFloat(payload.latitude);
+    const longitude = parseFloat(payload.longitude);
+    const radius = parseInt(payload.radius) || 10;
+    const location = new Location();
+    const proximity = location.mathGeoProximity(latitude, longitude, radius);
+    if (!latitude)
+      return response.status(400).json({ message: "Must have latitude" });
+
+    if (!longitude)
+      return response.status(400).json({ message: "Must have longitude" });
+    const service = await Service.query()
       .where("id", params.services_id)
       .orWhere("service_slug", params.services_id)
-      .with("shops", (builder) => {
-        builder.forPage(page, limit);
-      })
       .first();
-    return response.status(200).json(members);
+    const shops = await Shop.query()
+      .whereBetween("shop_latitude", [
+        proximity["latitudeMin"],
+        proximity["latitudeMax"],
+      ])
+      .whereBetween("shop_longitude", [
+        proximity["longitudeMin"],
+        proximity["longitudeMax"],
+      ])
+      .whereHas("service_shop", (builder) =>
+        builder.where("service_id", service.id)
+      )
+      .fetch();
+    const members = [];
+    shops.toJSON().forEach((shop) => {
+      const distance = location.mathGeoDistance(
+        latitude,
+        longitude,
+        shop.shop_latitude,
+        shop.shop_longitude
+      );
+      shop.shop_in_km = distance;
+      if (distance <= radius) members.push(shop);
+    });
+    service.shops = members;
+    return response.status(200).json(service);
   }
 
   /**

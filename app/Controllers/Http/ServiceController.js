@@ -22,7 +22,7 @@ class ServiceController {
     const payload = request.all();
     const page = parseInt(payload.page) || 1;
     const limit = parseInt(payload.limit) || 5;
-    const members = await Service.query().paginate(page, limit);
+    const members = await Service.query().fetch();
     return response.status(200).json(members.toJSON());
   }
 

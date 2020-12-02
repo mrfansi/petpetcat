@@ -18,6 +18,10 @@ class Shop extends Model {
   static get incrementing() {
     return false;
   }
+
+  service_shop() {
+    return this.hasMany("App/Models/ServiceShop");
+  }
 }
 
 module.exports = Shop;
