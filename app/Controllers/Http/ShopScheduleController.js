@@ -64,15 +64,17 @@ class ShopScheduleController {
 
       const payload = request.all();
       for (let p in payload) {
-        const member = await ShopSchedule.query()
-          .where('shop_id', shop.id)
-          .where('meet_on',payload[p].value)
-          .first();
-        member.shop_id = shop.id;
-        member.meet_on = payload[p].value;
-        member.meet_status = payload[p].status;
-        member.meet_schedules = JSON.stringify(payload[p].schedule);
-        await member.save();
+        await ShopSchedule.updateOrCreate(
+          {
+            shop_id: shop.id,
+            meet_on: payload[p].value
+
+          }, {
+            meet_on_desc: p,
+            meet_status: payload[p].status,
+            meet_schedules: JSON.stringify(payload[p].schedule)
+
+          })
       }
 
       return response.status(200).json({

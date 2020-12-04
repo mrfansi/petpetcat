@@ -21,6 +21,7 @@ const providers = [
   "@adonisjs/auth/providers/AuthProvider",
   "@adonisjs/lucid-slugify/providers/SlugifyProvider",
   '@adonisjs/bodyparser/providers/BodyParserProvider',
+  "adonis-lucid-update-or-create/providers/UpdateOrCreateProvider",
 ];
 
 /*

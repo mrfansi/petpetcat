@@ -6,7 +6,7 @@ const Model = use('Model')
 class ShopSchedule extends Model {
   static boot() {
     super.boot();
-
+    this.addTrait("@provider:Lucid/UpdateOrCreate")
     this.addHook("beforeCreate", "UuidHook.uuidv4");
   }
   static get table() {
