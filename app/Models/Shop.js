@@ -22,6 +22,10 @@ class Shop extends Model {
   service_shop() {
     return this.hasMany("App/Models/ServiceShop");
   }
+
+  schedules() {
+    return this.hasMany("App/Models/ShopSchedule")
+  }
 }
 
 module.exports = Shop;

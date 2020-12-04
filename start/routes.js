@@ -18,6 +18,7 @@ const Route = use("Route");
 
 Route.on("/").render("welcome");
 Route.resource("shops", "ShopController").apiOnly();
+Route.resource("shops.schedules", "ShopScheduleController").only(['index', 'store', 'destroy']);
 Route.resource("categories", "CategoryController").apiOnly();
 Route.resource("categories.services", "CategoryServiceController").apiOnly();
 Route.resource("services", "ServiceController").apiOnly();
