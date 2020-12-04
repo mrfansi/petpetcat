@@ -29,10 +29,7 @@ class ShopScheduleController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index({params, request, response}) {
-    const payload = request.all();
-    const page = parseInt(payload.page) || 1;
-    const limit = parseInt(payload.limit) || 5;
+  async index({params, response}) {
     const members = await Shop.query()
       .where('id', params.shops_id)
       .orWhere('shop_slug', params.shops_id)
@@ -40,8 +37,7 @@ class ShopScheduleController {
       .with('schedules', (builder) => {
         builder.orderBy('meet_on')
       })
-      .forPage(page, limit)
-      .fetch();
+      .first();
     return response.status(200).json(members.toJSON());
   }
 
