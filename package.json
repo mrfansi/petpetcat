@@ -1,40 +1,41 @@
 {
-  "name": "petpetcat",
-  "version": "4.1.0",
-  "adonis-version": "4.1.0",
-  "description": "Marketplace API for Petshop",
-  "main": "index.js",
-  "scripts": {
-    "start": "ENV_SILENT=true node server.js",
-    "test": "node ace test"
-  },
-  "keywords": [
-    "adonisjs",
-    "adonis-app"
-  ],
-  "author": "kangdevelop",
-  "license": "MIT",
-  "private": true,
-  "dependencies": {
-    "@adonisjs/ace": "^5.0.8",
-    "@adonisjs/auth": "^3.0.7",
-    "@adonisjs/bodyparser": "^2.0.9",
-    "@adonisjs/cors": "^1.0.7",
-    "@adonisjs/fold": "^4.0.9",
-    "@adonisjs/framework": "^5.0.9",
-    "@adonisjs/ignitor": "^2.0.8",
-    "@adonisjs/lucid": "^6.1.3",
-    "@adonisjs/lucid-slugify": "^1.0.3",
-    "@adonisjs/session": "^1.0.27",
-    "@adonisjs/shield": "^1.0.8",
-    "adonis-lucid-update-or-create": "^1.0.2",
-    "adonis-queue-pro": "^2.0.0",
-    "mysql": "^2.18.1",
-    "uuid": "^8.3.1",
-    "xendit-node": "^1.4.0"
-  },
-  "devDependencies": {},
-  "autoload": {
-    "App": "./app"
-  }
+    "name": "petpetcat",
+    "version": "4.1.0",
+    "adonis-version": "4.1.0",
+    "description": "Marketplace API for Petshop",
+    "main": "index.js",
+    "scripts": {
+        "start": "ENV_SILENT=true node server.js",
+        "test": "node ace test",
+        "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";"
+    },
+    "keywords": [
+        "adonisjs",
+        "adonis-app"
+    ],
+    "author": "kangdevelop",
+    "license": "MIT",
+    "private": true,
+    "dependencies": {
+        "@adonisjs/ace": "^5.0.8",
+        "@adonisjs/auth": "^3.0.7",
+        "@adonisjs/bodyparser": "^2.0.9",
+        "@adonisjs/cors": "^1.0.7",
+        "@adonisjs/fold": "^4.0.9",
+        "@adonisjs/framework": "^5.0.9",
+        "@adonisjs/ignitor": "^2.0.8",
+        "@adonisjs/lucid": "^6.1.3",
+        "@adonisjs/lucid-slugify": "^1.0.3",
+        "@adonisjs/session": "^1.0.27",
+        "@adonisjs/shield": "^1.0.8",
+        "adonis-lucid-update-or-create": "^1.0.2",
+        "adonis-queue-pro": "^2.0.0",
+        "mysql": "^2.18.1",
+        "uuid": "^8.3.1",
+        "xendit-node": "^1.4.0"
+    },
+    "devDependencies": {},
+    "autoload": {
+        "App": "./app"
+    }
 }
