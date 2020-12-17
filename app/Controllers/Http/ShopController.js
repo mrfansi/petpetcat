@@ -41,7 +41,7 @@ class ShopController {
                 proximity["longitudeMin"],
                 proximity["longitudeMax"],
             ])
-            .whereRaw(`LOWER('shop_name') LIKE LOWER('%?%')`, q)
+            .where('shop_name', 'like', '%' + q + '%')
             .fetch();
         const members = [];
         shops.toJSON().forEach((shop) => {
