@@ -54,6 +54,8 @@ class ShopController {
             shop.shop_in_km = distance;
             if (distance <= radius) members.push(shop);
         });
+        members.sort((a, b) => (a.shop_in_km > b.shop_in_km) ? 1 : -1)
+
         return response.status(200).json(members);
     }
 
