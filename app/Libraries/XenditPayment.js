@@ -37,7 +37,6 @@ class XenditPayment {
 
         const invoice = i.createInvoice({
             externalID: this.externalID,
-            fixedVA: true,
             ...data,
         });
         return invoice;
