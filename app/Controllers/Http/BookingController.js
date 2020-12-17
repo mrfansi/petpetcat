@@ -40,6 +40,7 @@ class BookingController {
             booking.booking_schedule = JSON.stringify(booking_schedule);
             booking.booking_status = 0;
             booking.booking_price = service_shop.service_price;
+            booking.booking_email = booking_email;
             booking.booking_at = new Date();
             booking.service_id = service_id;
             booking.shop_id = shop_id;
