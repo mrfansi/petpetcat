@@ -24,7 +24,7 @@ class ShopController {
         const latitude = parseFloat(payload.latitude);
         const longitude = parseFloat(payload.longitude);
         const radius = parseInt(payload.radius) || 10;
-        const q = payload.q;
+        const q = payload.q || '';
         const location = new Location();
         const proximity = location.mathGeoProximity(latitude, longitude, radius);
         if (!latitude)
