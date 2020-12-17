@@ -74,8 +74,14 @@ class BookingController {
         return result;
     }
 
-    getBooking({ params, request, response }) {
-
+    async getBooking({ params, request, response }) {
+        const id = params.id;
+        const booking = await Booking.query()
+            .where('id', id)
+            .with('service')
+            .with('shop')
+            .first();
+        return response.status(200).json(booking)
     }
 }
 

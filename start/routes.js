@@ -25,4 +25,4 @@ Route.resource("services", "ServiceController").apiOnly();
 Route.resource("services.shops", "ServiceShopController").apiOnly();
 Route.resource("orders", "OrderController").apiOnly();
 Route.post("booking", "BookingController.makeBooking");
-Route.post("payment", "BookingController.makePayment");
+Route.get("booking/:id", "BookingController.getBooking");

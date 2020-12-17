@@ -17,6 +17,13 @@ class Booking extends Model {
     static get incrementing() {
         return false;
     }
+    shop() {
+        return this.belongsTo("App/Models/Shop");
+    }
+
+    service() {
+        return this.belongsTo("App/Models/Service");
+    }
 }
 
 module.exports = Booking
