@@ -35,20 +35,19 @@ class XenditPayment {
         const invoiceSpecificOptions = {};
         const i = new Invoice(invoiceSpecificOptions);
 
-        const invoice = i.createInvoice({
-            externalID: this.externalID,
-            ...data,
-        });
-        return invoice;
-        // .then((response) => {
-        //   const { id } = response;
-        //   console.log(`Invoice created with ID: ${id}`);
-        //   return response;
-        // })
-        // .catch(e => {
-        //   console.error(`Get invoice failed with message: ${e.message}`);
-        //   return e.message;
-        // })
+        return i.createInvoice({
+                externalID: this.externalID,
+                ...data,
+            })
+            .then((response) => {
+                const { id } = response;
+                console.log(`Invoice created with ID: ${id}`);
+                return response;
+            })
+            .catch(e => {
+                console.error(`Get invoice failed with message: ${e.message}`);
+                return e.message;
+            })
     }
 
     getInvoice(id) {

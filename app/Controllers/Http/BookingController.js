@@ -1,6 +1,7 @@
 'use strict'
 const Booking = use('App/Models/Booking');
 const ServiceShop = use('App/Models/ServiceShop');
+const XenditPayment = use('App/Libraries/XenditPayment');
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
@@ -26,10 +27,14 @@ class BookingController {
             const booking_schedule = payload.booking_schedule;
             const shop_id = payload.shop_id;
             const service_id = payload.service_id;
+            const booking_email = payload.booking_email;
             const service_shop = await ServiceShop.query()
                 .where('shop_id', shop_id)
                 .where('service_id', service_id)
+                .with('service')
+                .with('shop')
                 .first();
+            const { service, shop } = service_shop.toJSON();
             const booking = new Booking();
             booking.booking_id = await this.generateBooking();
             booking.booking_schedule = JSON.stringify(booking_schedule);
@@ -41,14 +46,31 @@ class BookingController {
 
             await booking.save();
 
+            const payment = await this.makePayment({
+                id: booking.id,
+                booking_price: parseInt(service_shop.service_price),
+                booking_email: booking_email,
+                shop: shop,
+                service: service,
+            })
+
+            booking.payment = payment;
+
             return response.status(200).json(booking)
         } catch (error) {
             return response.status(500).json(error)
         }
     }
 
-    makePayment({ request, response }) {
-        const payload = request.all();
+    async makePayment(data) {
+        const payment = new XenditPayment(data.id);
+        const result = await payment.createInvoice({
+            externalID: data.id,
+            payerEmail: data.booking_email,
+            description: `${data.shop.shop_name} - ${data.service.service_name}`,
+            amount: data.booking_price,
+        })
+        return result;
     }
 
     getBooking({ params, request, response }) {
