@@ -24,4 +24,5 @@ Route.resource("categories.services", "CategoryServiceController").apiOnly();
 Route.resource("services", "ServiceController").apiOnly();
 Route.resource("services.shops", "ServiceShopController").apiOnly();
 Route.resource("orders", "OrderController").apiOnly();
-Route.resource("bookings", "BookingController").apiOnly();
+Route.post("booking", "BookingController.makeBooking");
+Route.post("payment", "BookingController.makePayment");
