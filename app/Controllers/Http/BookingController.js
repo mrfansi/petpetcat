@@ -24,7 +24,6 @@ class BookingController {
     async makeBooking({ request, response }) {
         try {
             const payload = request.all();
-            const booking_schedule = payload.booking_schedule;
             const shop_id = payload.shop_id;
             const service_id = payload.service_id;
             const booking_email = payload.booking_email;
@@ -37,7 +36,12 @@ class BookingController {
             const { service, shop } = service_shop.toJSON();
             const booking = new Booking();
             booking.booking_id = await this.generateBooking();
-            booking.booking_schedule = JSON.stringify(booking_schedule);
+            booking.booking_schedule = JSON.stringify({
+                meet_on: payload.meet_on,
+                meet_on_desc: payload.meet_on_desc,
+                meet_time: payload.meet_time,
+                meet_date: payload.meet_date,
+            });
             booking.booking_status = 0;
             booking.booking_price = service_shop.service_price;
             booking.booking_email = booking_email;
