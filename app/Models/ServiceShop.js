@@ -4,10 +4,6 @@
 const Model = use("Model");
 
 class ServiceShop extends Model {
-  static get table() {
-    return "service_shop";
-  }
-
   shop() {
     return this.belongsTo("App/Models/Shop");
   }

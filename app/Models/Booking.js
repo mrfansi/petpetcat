@@ -10,10 +10,6 @@ class Booking extends Model {
         // this.addHook("beforeCreate", "BookId.generate");
     }
 
-    static get table() {
-        return "booking";
-    }
-
     static get incrementing() {
         return false;
     }

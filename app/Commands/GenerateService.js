@@ -18,6 +18,7 @@ class GenerateService extends Command {
     async handle(args, options) {
         const shops = await Shop.all();
         const services = await Service.all();
+        Database.close()
         await shops.toJSON().forEach(async(shop) => {
             await services.toJSON().forEach(async(service) => {
                 const price = Math.floor(Math.random() * (999 - 100 + 1) + 100) + '000';

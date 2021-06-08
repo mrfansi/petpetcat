@@ -22,7 +22,7 @@ class Category extends Model {
   }
 
   services () {
-    return this.belongsToMany('App/Models/Service')
+    return this.belongsToMany('App/Models/Service','')
   }
 
 }

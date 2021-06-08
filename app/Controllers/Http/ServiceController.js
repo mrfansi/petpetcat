@@ -44,8 +44,11 @@ class ServiceController {
       member.service_price = payload.service_price;
       await member.save();
 
+      const result = await member.reload()
+
       return response.status(200).json({
         message: "Data successfully created",
+        data: result
       });
     } catch (error) {
       return response.status(500).json({

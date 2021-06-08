@@ -9,9 +9,6 @@ class ShopSchedule extends Model {
     this.addTrait("@provider:Lucid/UpdateOrCreate")
     this.addHook("beforeCreate", "UuidHook.uuidv4");
   }
-  static get table() {
-    return 'shop_schedule'
-  }
 
   shop() {
     return this.belongsTo("App/Models/Shop");

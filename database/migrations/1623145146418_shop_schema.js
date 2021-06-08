@@ -1,0 +1,28 @@
+'use strict'
+
+/** @type {import('@adonisjs/lucid/src/Schema')} */
+const Schema = use('Schema')
+
+class ShopSchema extends Schema {
+  up () {
+    this.create('shops', (table) => {
+      table.uuid('id').primary()
+      table.string('shop_name').notNullable()
+      table.string('shop_slug').notNullable().unique()
+      table.text('shop_description')
+      table.text('shop_address')
+      table.string('shop_phone')
+      table.string('shop_latitude')
+      table.string('shop_longitude')
+      table.boolean('shop_shopping')
+      table.boolean('shop_pickup')
+      table.timestamps()
+    })
+  }
+
+  down () {
+    this.drop('shops')
+  }
+}
+
+module.exports = ShopSchema

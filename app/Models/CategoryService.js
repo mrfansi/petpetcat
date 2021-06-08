@@ -5,8 +5,9 @@ const Model = use("Model");
 
 class CategoryService extends Model {
   static get table() {
-    return "category_service";
+    return 'category_service'
   }
+
   category() {
     return this.belongsTo("App/Models/Category");
   }

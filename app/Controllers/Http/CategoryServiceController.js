@@ -50,10 +50,22 @@ class CategoryServiceController {
         .orWhere("category_slug", params.categories_id)
         .first();
 
+      if (!category) {
+        return response.status(404).json({
+          message: "Category not found",
+        });
+      }
+
       const service = await Service.query()
         .where("id", payload.service_id)
         .orWhere("service_slug", payload.service_id)
         .first();
+
+      if (!service) {
+        return response.status(404).json({
+          message: "Service not found",
+        });
+      }
 
       if (!service && !category) {
         return response.status(404).json({
@@ -62,8 +74,8 @@ class CategoryServiceController {
       }
 
       const member = new CategoryService();
-      member.service_id = service.id;
-      member.category_id = category.id;
+      member.service_id = service?.id;
+      member.category_id = category?.id;
       await member.save();
 
       return response.status(200).json({
@@ -77,6 +89,7 @@ class CategoryServiceController {
         });
       }
       return response.status(500).json({
+        error: error,
         message: "Internal server error",
       });
     }
