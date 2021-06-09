@@ -22,12 +22,24 @@ class GenerateService extends Command {
         for (const shop of shops.toJSON()) {
             for (const service of services.toJSON()) {
                 try {
+                  const search = await ServiceShop.query()
+                    .where('shop_id', shop.id)
+                    .where('service_id', service.id)
+                    .first()
+
+                  if (search) {
+                    this.info(`${service.service_name} and ${shop.shop_name} was integrated!`)
+                    return;
+                  }
+
                   const addToShop = new ServiceShop();
                   addToShop.shop_id = shop.id;
                   addToShop.service_id = service.id;
                   addToShop.service_price = service.service_price;
 
                   await addToShop.save();
+                  this.success(`${service.service_name} and ${shop.shop_name} connected!`)
+
                   Database.close();
                 } catch (e) {
                   console.log(e)

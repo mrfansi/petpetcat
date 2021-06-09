@@ -87,6 +87,7 @@ class ShopController {
             });
         } catch (error) {
             return response.status(500).json({
+                error: error,
                 message: "Internal server error",
             });
         }

@@ -21,17 +21,24 @@ class CategoryServiceController {
    * @param {View} ctx.view
    */
   async index({ params, request, response }) {
-    const payload = request.all();
-    const page = parseInt(payload.page) || 1;
-    const limit = parseInt(payload.limit) || 5;
-    const members = await Category.query()
-      .where("id", params.categories_id)
-      .orWhere("category_slug", params.categories_id)
-      .with("services", (builder) => {
-        builder.forPage(page, limit);
+    try {
+      const payload = request.all();
+      const page = parseInt(payload.page) || 1;
+      const limit = parseInt(payload.limit) || 5;
+      const members = await Category.query()
+        .where("id", params.categories_id)
+        .orWhere("category_slug", params.categories_id)
+        .with("services", (builder) => {
+          builder.forPage(page, limit);
+        })
+        .first();
+      return response.status(200).json(members);
+    } catch (e) {
+      return response.status(500).json({
+        error: e,
+        message: "Internal server error"
       })
-      .first();
-    return response.status(200).json(members);
+    }
   }
 
   /**
