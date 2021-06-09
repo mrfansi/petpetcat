@@ -60,7 +60,9 @@ const aliases = {};
 const commands = [
     'App/Commands/GenerateSchedule',
     'App/Commands/GenerateService',
-    'App/Commands/ImportCsvShop'
+    'App/Commands/GenerateCategoryService',
+    'App/Commands/ImportCsvShop',
+    'App/Commands/ImportCsvService',
 ];
 
 module.exports = { providers, aceProviders, aliases, commands };

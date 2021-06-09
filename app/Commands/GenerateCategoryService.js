@@ -1,14 +1,14 @@
 'use strict'
-const Shop = use('App/Models/Shop')
+const Category = use('App/Models/Category')
 const Service = use('App/Models/Service')
-const ServiceShop = use('App/Models/ServiceShop')
+const CategoryService = use('App/Models/CategoryService')
 const { Command } = require('@adonisjs/ace')
 const Database = use('Database')
 
 
-class GenerateService extends Command {
+class GenerateCategoryService extends Command {
     static get signature() {
-        return 'generate:service'
+        return 'generate:category_service'
     }
 
     static get description() {
@@ -16,18 +16,17 @@ class GenerateService extends Command {
     }
 
     async handle(args, options) {
-        const shops = await Shop.all();
+        const categories = await Category.all();
         const services = await Service.all();
         Database.close()
-        for (const shop of shops.toJSON()) {
+        for (const category of categories.toJSON()) {
             for (const service of services.toJSON()) {
                 try {
-                  const addToShop = new ServiceShop();
-                  addToShop.shop_id = shop.id;
-                  addToShop.service_id = service.id;
-                  addToShop.service_price = service.service_price;
+                  const categoryService = new CategoryService();
+                  categoryService.category_id = category.id;
+                  categoryService.service_id = service.id;
 
-                  await addToShop.save();
+                  await categoryService.save();
                   Database.close();
                 } catch (e) {
                   console.log(e)
@@ -39,4 +38,4 @@ class GenerateService extends Command {
     }
 }
 
-module.exports = GenerateService
+module.exports = GenerateCategoryService
