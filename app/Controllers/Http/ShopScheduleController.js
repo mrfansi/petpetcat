@@ -38,7 +38,7 @@ class ShopScheduleController {
         builder.orderBy('meet_on')
       })
       .first();
-      console.log(members)
+    console.log(members)
     return response.status(200).json(members.toJSON());
   }
 

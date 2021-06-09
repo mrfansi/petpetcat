@@ -5,6 +5,7 @@ const Category = use("App/Models/Category");
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
+
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
 /**
@@ -20,20 +21,20 @@ class CategoryServiceController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index({ params, request, response }) {
+  async index({params, request, response}) {
     try {
-      // const payload = request.all();
-      // const page = parseInt(payload.page) || 1;
-      // const limit = parseInt(payload.limit) || 5;
-      // const members = await Category.query()
-      //   .where("id", params.categories_id)
-      //   .orWhere("category_slug", params.categories_id)
-      //   .with("services", (builder) => {
-      //     builder.forPage(page, limit);
-      //   })
-      //   .first();
-      //
-      // return response.status(200).json(members);
+      const payload = request.all();
+      const page = parseInt(payload.page) || 1;
+      const limit = parseInt(payload.limit) || 5;
+      const members = await Category.query()
+        .where("id", params.categories_id)
+        .orWhere("category_slug", params.categories_id)
+        .with("services", (builder) => {
+          builder.forPage(page, limit);
+        })
+        .first();
+
+      return response.status(200).json(members);
     } catch (e) {
       return response.status(500).json({
         error: e,
@@ -50,7 +51,7 @@ class CategoryServiceController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store({ params, request, response }) {
+  async store({params, request, response}) {
     try {
       const payload = request.all();
       const category = await Category.query()
@@ -91,7 +92,7 @@ class CategoryServiceController {
       });
     } catch (error) {
       console.log(error);
-      if (error.code == "ER_DUP_ENTRY") {
+      if (error.code === "ER_DUP_ENTRY") {
         return response.status(500).json({
           message: "Data duplicated",
         });
@@ -112,7 +113,7 @@ class CategoryServiceController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show({ params, request, response, view }) {
+  async show({params, request, response, view}) {
     try {
       const service = await Service.query()
         .where("id", params.id)
@@ -156,7 +157,7 @@ class CategoryServiceController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update({ params, request, response }) {
+  async update({params, request, response}) {
     try {
       const service = await Service.query()
         .where("id", params.id)
@@ -206,7 +207,7 @@ class CategoryServiceController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy({ params, request, response }) {
+  async destroy({params, request, response}) {
     try {
       const category = await Category.query()
         .where("id", params.categories_id)

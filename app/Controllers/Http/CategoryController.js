@@ -3,6 +3,7 @@ const Category = use("App/Models/Category");
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
+
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
 /**
@@ -18,7 +19,7 @@ class CategoryController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index({ request, response, view }) {
+  async index({request, response, view}) {
     const payload = request.all();
     const page = parseInt(payload.page) || 1;
     const limit = parseInt(payload.limit) || 5;
@@ -34,7 +35,7 @@ class CategoryController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store({ request, response }) {
+  async store({request, response}) {
     try {
       const member = new Category();
       const payload = request.all();
@@ -62,7 +63,7 @@ class CategoryController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show({ params, request, response, view }) {
+  async show({params, request, response, view}) {
     try {
       const member = await Category.query()
         .where("id", params.id)
@@ -89,7 +90,7 @@ class CategoryController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update({ params, request, response }) {
+  async update({params, request, response}) {
     try {
       const member = await Category.query()
         .where("id", params.id)
@@ -126,7 +127,7 @@ class CategoryController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy({ params, request, response }) {
+  async destroy({params, request, response}) {
     try {
       const member = await Category.query()
         .where("id", params.id)
